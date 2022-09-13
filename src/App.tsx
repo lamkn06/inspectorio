@@ -8,7 +8,7 @@ function App() {
   return (
     <Suspense fallback={<></>}>
       <Routes>
-        <Route path={"list"} element={<ListPage />}></Route>
+        <Route index element={<ListPage />}></Route>
       </Routes>
     </Suspense>
   );

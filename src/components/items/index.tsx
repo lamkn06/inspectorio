@@ -44,7 +44,6 @@ export const Items = (props: Props) => {
                       {item.login}
                     </a>
                   }
-                  description="Ant Design, a design language for background applications, is refined by Ant UED Team"
                 />
               </Skeleton>
             </List.Item>
