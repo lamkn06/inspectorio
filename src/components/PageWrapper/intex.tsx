@@ -9,7 +9,7 @@ interface Props {
 export const PageWrapper = (props: Props) => {
   return (
     <Layout className="layout">
-      <Content style={{ padding: "0 50px", maxWidth: "1280px" }}>
+      <Content style={{ padding: "0 50px" }}>
         <div className="site-layout-content">{props.renderContent()}</div>
       </Content>
       <Footer style={{ textAlign: "center" }}></Footer>
