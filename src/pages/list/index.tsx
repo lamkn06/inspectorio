@@ -1,12 +1,16 @@
 import { useCallback, useEffect, useState } from "react";
-import { getList } from "../../api/user";
+import { getDetail, getList } from "../../api/user";
+import { Item } from "../../components/item";
 import { Items } from "../../components/items";
 import { PageWrapper } from "../../components/PageWrapper/intex";
-import { User } from "../../types/user";
+import { User, UserDetail } from "../../types/user";
 
 const ListPage = () => {
   const [users, setUsers] = useState<User[]>([]);
+  const [user, setUser] = useState<UserDetail | undefined>();
   const [loading, setLoading] = useState<boolean>(false);
+  const [loadingDetail, setLoadingDetail] = useState<boolean>(false);
+  const [drawserOpen, setDrawserOpen] = useState(false);
 
   useEffect(() => {
     fetchUsers();
@@ -21,6 +25,18 @@ const ListPage = () => {
       return error;
     } finally {
       setLoading(false);
+    }
+  }, []);
+
+  const fetchUser = useCallback(async (name: string) => {
+    setLoadingDetail(true);
+    try {
+      const { data } = await getDetail(name);
+      setUser(data);
+    } catch (error) {
+      return error;
+    } finally {
+      setLoadingDetail(false);
     }
   }, []);
 
@@ -47,12 +63,30 @@ const ListPage = () => {
     },
   ];
 
+  const handleViewProfile = (name: string) => {
+    setDrawserOpen(true);
+    fetchUser(name);
+  };
+
   return (
-    <PageWrapper
-      renderContent={() => (
-        <Items list={users} loading={loading} topFive={topFive} />
-      )}
-    />
+    <>
+      <PageWrapper
+        renderContent={() => (
+          <Items
+            list={users}
+            loading={loading}
+            topFive={topFive}
+            onViewProfile={handleViewProfile}
+          />
+        )}
+      />
+      <Item
+        open={drawserOpen}
+        loading={loadingDetail}
+        onClose={() => setDrawserOpen(false)}
+        user={user}
+      />
+    </>
   );
 };
 

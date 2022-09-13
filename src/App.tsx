@@ -1,16 +1,16 @@
-import "antd/dist/antd.css";
-import { lazy } from "react";
+import "antd/dist/antd.min.css";
+import { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
 
 const ListPage = lazy(() => import("./pages/list"));
 
 function App() {
   return (
-    <div className="App">
+    <Suspense fallback={<></>}>
       <Routes>
-        <Route path={"list"} element={<ListPage />} />
+        <Route path={"list"} element={<ListPage />}></Route>
       </Routes>
-    </div>
+    </Suspense>
   );
 }
 
